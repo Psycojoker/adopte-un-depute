@@ -3,7 +3,7 @@
 {% block content %}
 <h3>Introduction</h3>
 <p>Projet de site pour rendre plus facile le suivit des activités de son député pour pouvoir l'éduquer.</p>
-<h3>Liste de députés</h3>
+<h3>Liste des députés</h3>
 <dl class="tabs">
     {% for letter in deputes_by_letter.keys()|sort|first %}
     <dd><a href="#{{ letter }}" class="active">{{ letter }}</a></dd>
