@@ -2,3 +2,9 @@ ul.deputes li {
     list-style-type: circle;
     margin-left: 2em;
 }
+
+footer.row {
+    border-top: 1px solid #E6E6E6;
+    margin-top: 80px;
+    padding-top: 20px;
+}
