@@ -16,16 +16,20 @@
 <ul class="tabs-content">
     {% for letter in deputes_by_letter.keys()|sort|first %}
     <li class="active" id="{{ letter }}Tab">
+    <ul class="deputes">
         {% for depute in deputes_by_letter[letter] %}
-        <p><a href="/depute/{{ depute.slug }}/">{{ depute.nom }}</a></p>
+        {% include "depute_row.html" %}
         {% endfor %}
+    </ul>
     </li>
     {% endfor %}
     {% for letter in letters %}
     <li id="{{ letter }}Tab">
+    <ul class="deputes">
         {% for depute in deputes_by_letter[letter] %}
-        <p><a href="/depute/{{ depute.slug }}/">{{ depute.nom }}</a></p>
+        {% include "depute_row.html" %}
         {% endfor %}
+    </ul>
     </li>
     {% endfor %}
 </ul>
