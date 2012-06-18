@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+<h3>Introduction</h3>
+<p>Projet de site pour rendre plus facile le suivit des activités de son député pour pouvoir l'éduquer.</p>
+<h3>Liste de députés</h3>
 <ul>
 {% for depute in deputes %}
     <li><a href="/depute/{{ depute.slug }}/">{{ depute.nom }}</a></li>
