@@ -1,5 +1,9 @@
-{% extends "base.html" %}
+{% extends "base-sidebar.html" %}
 
 {% block content %}
 <p>{{ depute.nom }}</p>
+{% endblock %}
+
+{% block sidebar %}
+<img src="http://2007-2012.nosdeputes.fr/depute/photo/{{ depute.slug }}">
 {% endblock %}
