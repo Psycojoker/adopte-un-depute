@@ -4,9 +4,29 @@
 <h3>Introduction</h3>
 <p>Projet de site pour rendre plus facile le suivit des activités de son député pour pouvoir l'éduquer.</p>
 <h3>Liste de députés</h3>
-<ul>
-{% for depute in deputes %}
-    <li><a href="/depute/{{ depute.slug }}/">{{ depute.nom }}</a></li>
-{% endfor %}
+<dl class="tabs">
+    {% for letter in deputes_by_letter.keys()|sort|first %}
+    <dd><a href="#{{ letter }}" class="active">{{ letter }}</a></dd>
+    {% endfor %}
+    {% for letter in letters %}
+    <dd><a href="#{{ letter }}">{{ letter }}</a></dd>
+    {% endfor %}
+</dl>
+
+<ul class="tabs-content">
+    {% for letter in deputes_by_letter.keys()|sort|first %}
+    <li class="active" id="{{ letter }}Tab">
+        {% for depute in deputes_by_letter[letter] %}
+        <p><a href="/depute/{{ depute.slug }}/">{{ depute.nom }}</a></p>
+        {% endfor %}
+    </li>
+    {% endfor %}
+    {% for letter in letters %}
+    <li id="{{ letter }}Tab">
+        {% for depute in deputes_by_letter[letter] %}
+        <p><a href="/depute/{{ depute.slug }}/">{{ depute.nom }}</a></p>
+        {% endfor %}
+    </li>
+    {% endfor %}
 </ul>
 {% endblock %}
