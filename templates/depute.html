@@ -10,6 +10,13 @@
     <li>Mandat commencé le {{ depute.mandat_debut }}</li>
     <li>Profession: {{ depute.profession }}</li>
 </ul>
+
+<h4>Liens</h4>
+<ul>
+    <li><a href="http://www.nosdeputes.fr/{{ depute.slug }}">NosDéputés.fr</a></li>
+    <li><a href="https://memopol.lqdn.fr/france/assemblee/depute/{{ depute.for_memopol }}/">Mémoire Politique de La Quadrature du Net</a></li>
+    <li><a href="{{ depute.url_an }}">Page sur le site de l'Assemblée Nationale</a></li>
+</ul>
 </div>
 {% endblock %}
 

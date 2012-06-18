@@ -8,3 +8,7 @@ footer.row {
     margin-top: 80px;
     padding-top: 20px;
 }
+
+div.inner-content {
+    margin-left: 2em;
+}
