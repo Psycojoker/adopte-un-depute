@@ -1,6 +1,7 @@
 li {
     list-style-type: circle;
     margin-left: 2em;
+    margin-bottom: 5px;
 }
 
 footer.row {
