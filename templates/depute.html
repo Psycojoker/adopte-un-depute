@@ -17,9 +17,22 @@
     <li><a href="https://memopol.lqdn.fr/france/assemblee/depute/{{ depute.for_memopol }}/">Mémoire Politique de La Quadrature du Net</a></li>
     <li><a href="{{ depute.url_an }}">Page sur le site de l'Assemblée Nationale</a></li>
 </ul>
+
+<h4>Actualitées le concernant</h4>
+<div id="gnews">Loading...</div>
 </div>
 {% endblock %}
 
 {% block sidebar %}
 <img class="depute-photo" src="http://2007-2012.nosdeputes.fr/depute/photo/{{ depute.slug }}">
+{% endblock %}
+
+{% block javascript %}
+<script>
+$(function() {
+    $.get("/depute/gnews/{{ depute.slug }}/", function(data) {
+        $('div#gnews').html(data);
+    });
+});
+</script>
 {% endblock %}
