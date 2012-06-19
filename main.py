@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from database import Depute
 from shortcuts import get_object_or_404
-from feedparser import parse
+from utils import prepare_rss
 from urllib import quote_plus
 app = Flask(__name__)
 
@@ -25,8 +25,7 @@ def depute(depute):
 def google_news(depute):
     depute = get_object_or_404(Depute, {"slug": depute})
     quoted_query = quote_plus("%s %s" % (depute["prenom"].encode("Utf-8"), depute["nom_de_famille"].encode("Utf-8")))
-    print "http://www.google.fr/#hl=fr&q=%s&oq=%s" % (quoted_query, quoted_query)
-    return render_template("rss_to_html.html", entries=parse("http://news.google.fr/news?q=%s&hl=fr&ie=UTF-8&output=rss" % quoted_query).entries[:10])
+    return render_template("rss_to_html.html", entries=prepare_rss("http://news.google.fr/news?q=%s&hl=fr&ie=UTF-8&output=rss" % quoted_query))
 
 if __name__ == "__main__":
     app.run(debug=True)
