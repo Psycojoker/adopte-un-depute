@@ -1,0 +1,9 @@
+{% if entries %}
+<ul>
+    {% for entrie in entries %}
+    <li><a href="{{ entrie.link }}">{{ entrie.title }}</a> - {{ entrie.published }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Rien ici.</p>
+{% endif %}
