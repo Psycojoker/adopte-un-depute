@@ -1,5 +1,6 @@
-from flask import Flask, render_template, abort
+from flask import Flask, render_template
 from database import Depute
+from shortcuts import get_object_or_404
 app = Flask(__name__)
 
 
@@ -15,9 +16,7 @@ def home():
 
 @app.route("/depute/<depute>/")
 def depute(depute):
-    if not Depute.collection.find_one({"slug": depute}):
-        abort(404)
-    return render_template("depute.html", depute=Depute.collection.find_one({"slug": depute}))
+    return render_template("depute.html", depute=get_object_or_404(Depute, {"slug": depute}))
 
 
 if __name__ == "__main__":
