@@ -27,5 +27,10 @@ def google_news(depute):
     quoted_query = quote_plus("%s %s" % (depute["prenom"].encode("Utf-8"), depute["nom_de_famille"].encode("Utf-8")))
     return render_template("rss_to_html.html", entries=prepare_rss("http://news.google.fr/news?q=%s&hl=fr&ie=UTF-8&output=rss" % quoted_query))
 
+@app.route("/depute/nosdeputes_rss/<depute>/")
+def nosdeputes_rss(depute):
+    depute = get_object_or_404(Depute, {"slug": depute})
+    return render_template("rss_to_html.html", entries=prepare_rss("http://www.nosdeputes.fr/%s/rss" % depute["slug"]))
+
 if __name__ == "__main__":
     app.run(debug=True)

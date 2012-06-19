@@ -18,6 +18,9 @@
     <li><a href="{{ depute.url_an }}">Page sur le site de l'Assemblée Nationale</a></li>
 </ul>
 
+<h4>Sur NosDéputés.fr</h4>
+<div id="nosdeputes_rss">Loading...</div>
+
 <h4>Actualitées le concernant</h4>
 <div id="gnews">Loading...</div>
 </div>
@@ -32,6 +35,9 @@
 $(function() {
     $.get("/depute/gnews/{{ depute.slug }}/", function(data) {
         $('div#gnews').html(data);
+    });
+    $.get("/depute/nosdeputes_rss/{{ depute.slug }}/", function(data) {
+        $('div#nosdeputes_rss').html(data);
     });
 });
 </script>
