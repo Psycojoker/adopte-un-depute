@@ -12,3 +12,7 @@ footer.row {
 div.inner-content {
     margin-left: 2em;
 }
+
+img.depute-photo {
+    float: right;
+}
