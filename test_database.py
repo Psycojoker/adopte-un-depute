@@ -64,6 +64,7 @@ class TestDatabase(unittest.TestCase):
     def setUp(self):
         # monkey patch collection to avoid using the prod database
         Depute.collection = Collection(Database(Connection('localhost', 27017), u'test_adopteundepute'), u'depute', document_class=Depute)
+        Depute.database = Database(Connection('localhost', 27017), u'test_adopteundepute')
         Depute.collection.remove()
         self.assertEqual(Depute.collection.find().count(), 0)
         self.depute = Depute(test_depute)
