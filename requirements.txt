@@ -2,3 +2,5 @@ flask
 minimongo
 feedparser
 dateutils
+nose
+ipdbplugin
