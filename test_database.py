@@ -83,6 +83,9 @@ class TestDatabase(unittest.TestCase):
     def test_for_memopol(self):
         self.assertEqual(self.depute.for_memopol, u"EricCiotti")
 
+    def test_an_id(self):
+        self.assertEqual(self.depute.an_id, '330240')
+
     def test_get_extra(self):
         self.assertTrue(isinstance(self.depute.extra, Extra))
 
@@ -97,5 +100,3 @@ class TestDatabase(unittest.TestCase):
         extra = self.depute.extra
         self.assertEqual(extra, self.depute.extra)
 
-    def test_an_id(self):
-        self.assertEqual(self.depute.an_id, '330240')
