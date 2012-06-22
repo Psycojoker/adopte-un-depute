@@ -4,7 +4,7 @@ from pymongo import Connection
 from pymongo.database import Database
 from minimongo.collection import Collection
 
-from database import Depute
+from database import Depute, Extra
 
 test_depute = loads("""
 {
@@ -67,14 +67,35 @@ class TestDatabase(unittest.TestCase):
         Depute.database = Database(Connection('localhost', 27017), u'test_adopteundepute')
         Depute.collection.remove()
         self.assertEqual(Depute.collection.find().count(), 0)
+
+        Extra.collection = Collection(Database(Connection('localhost', 27017), u'test_adopteundepute'), u'extra', document_class=Extra)
+        Extra.database = Database(Connection('localhost', 27017), u'test_adopteundepute')
+        Extra.collection.remove()
+        self.assertEqual(Extra.collection.find().count(), 0)
+
         self.depute = Depute(test_depute)
         self.depute = self.depute.save()
 
     def tearDown(self):
         Depute.collection.remove()
+        Extra.collection.remove()
 
     def test_for_memopol(self):
         self.assertEqual(self.depute.for_memopol, u"EricCiotti")
+
+    def test_get_extra(self):
+        self.assertTrue(isinstance(self.depute.extra, Extra))
+
+    def test_extra_saved(self):
+        self.depute.extra
+        self.assertEqual(Extra.collection.find().count(), 1)
+
+    def test_extra_save_depute_id(self):
+        self.assertEqual(self.depute.extra.depute_id, self.depute.an_id)
+
+    def test_extra_the_same(self):
+        extra = self.depute.extra
+        self.assertEqual(extra, self.depute.extra)
 
     def test_an_id(self):
         self.assertEqual(self.depute.an_id, '330240')
