@@ -66,12 +66,12 @@ class TestDatabase(unittest.TestCase):
         Depute.collection = Collection(Database(Connection('localhost', 27017), u'test_adopteundepute'), u'depute', document_class=Depute)
         Depute.database = Database(Connection('localhost', 27017), u'test_adopteundepute')
         Depute.collection.remove()
-        self.assertEqual(Depute.collection.find().count(), 0)
+        self.assertEqual(Depute.collection.count(), 0)
 
         Extra.collection = Collection(Database(Connection('localhost', 27017), u'test_adopteundepute'), u'extra', document_class=Extra)
         Extra.database = Database(Connection('localhost', 27017), u'test_adopteundepute')
         Extra.collection.remove()
-        self.assertEqual(Extra.collection.find().count(), 0)
+        self.assertEqual(Extra.collection.count(), 0)
 
         self.depute = Depute(test_depute)
         self.depute = self.depute.save()
@@ -91,7 +91,7 @@ class TestDatabase(unittest.TestCase):
 
     def test_extra_saved(self):
         self.depute.extra
-        self.assertEqual(Extra.collection.find().count(), 1)
+        self.assertEqual(Extra.collection.count(), 1)
 
     def test_extra_save_depute_id(self):
         self.assertEqual(self.depute.extra.depute_id, self.depute.an_id)
