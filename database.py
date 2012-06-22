@@ -1,3 +1,4 @@
+import re
 import unicodedata
 from minimongo import Model, Index
 
@@ -12,3 +13,7 @@ class Depute(Model):
     @property
     def for_memopol(self):
         return unicodedata.normalize('NFKD', u"%s%s" % (self["prenom"], self["nom_de_famille"])).encode('ascii', 'ignore')
+
+    @property
+    def an_id(self):
+        return re.sub(".*/", "", self.url_an[:-4])

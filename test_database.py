@@ -72,5 +72,8 @@ class TestDatabase(unittest.TestCase):
     def test_for_memopol(self):
         self.assertEqual(self.depute.for_memopol, u"EricCiotti")
 
+    def test_an_id(self):
+        self.assertEqual(self.depute.an_id, '330240')
+
     def tearDown(self):
         Depute.collection.remove()
