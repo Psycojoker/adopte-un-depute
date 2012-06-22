@@ -4,7 +4,7 @@ from pymongo import Connection
 from pymongo.database import Database
 from minimongo.collection import Collection
 
-from database import Depute, Extra
+from database import Depute, Extra, create_user, User
 
 test_depute = loads("""
 {
@@ -73,6 +73,11 @@ class TestDatabase(unittest.TestCase):
         Extra.collection.remove()
         self.assertEqual(Extra.collection.count(), 0)
 
+        User.collection = Collection(Database(Connection('localhost', 27017), u'test_adopteundepute'), u'user', document_class=Extra)
+        User.database = Database(Connection('localhost', 27017), u'test_adopteundepute')
+        User.collection.remove()
+        self.assertEqual(User.collection.count(), 0)
+
         self.depute = Depute(test_depute)
         self.depute = self.depute.save()
 
@@ -100,3 +105,53 @@ class TestDatabase(unittest.TestCase):
         extra = self.depute.extra
         self.assertEqual(extra, self.depute.extra)
 
+
+class TestUSer(unittest.TestCase):
+    def setUp(self):
+        # monkey patch collection to avoid using the prod database
+        Depute.collection = Collection(Database(Connection('localhost', 27017), u'test_adopteundepute'), u'depute', document_class=Depute)
+        Depute.database = Database(Connection('localhost', 27017), u'test_adopteundepute')
+        Depute.collection.remove()
+        self.assertEqual(Depute.collection.count(), 0)
+
+        Extra.collection = Collection(Database(Connection('localhost', 27017), u'test_adopteundepute'), u'extra', document_class=Extra)
+        Extra.database = Database(Connection('localhost', 27017), u'test_adopteundepute')
+        Extra.collection.remove()
+        self.assertEqual(Extra.collection.count(), 0)
+
+        User.collection = Collection(Database(Connection('localhost', 27017), u'test_adopteundepute'), u'user', document_class=Extra)
+        User.database = Database(Connection('localhost', 27017), u'test_adopteundepute')
+        User.collection.remove()
+        self.assertEqual(User.collection.count(), 0)
+
+        self.depute = Depute(test_depute)
+        self.depute = self.depute.save()
+
+    def test_create_user(self):
+        self.assertTrue(isinstance(create_user("foo", "bar"), User))
+
+    def test_create_user_save(self):
+        create_user("foo", "bar")
+        self.assertEqual(User.collection.find().count(), 1)
+
+    def test_user_as_login(self):
+        user = create_user(username="foo", password="bar")
+        self.assertEqual(user.username, "foo")
+
+    def test_login_non_empty(self):
+        self.assertRaises(ValueError, create_user, "", "pouet")
+
+    def test_password_non_empty(self):
+        self.assertRaises(ValueError, create_user, "pouet", "")
+
+    def test_dont_store_password_in_clear(self):
+        user = create_user(username="foo", password="bar")
+        self.assertNotEqual(user.password, "bar")
+
+    def test_password_is_correct(self):
+        user = create_user(username="foo", password="bar")
+        self.assertTrue(user.is_password("bar"))
+
+    def test_password_is_not_correct(self):
+        user = create_user(username="foo", password="bar")
+        self.assertFalse(user.is_password("bad password"))
