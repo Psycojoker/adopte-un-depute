@@ -3,6 +3,7 @@ import bcrypt
 import unicodedata
 from minimongo import Model, Index
 
+class DuplicatedUser(Exception): pass
 
 class User(Model):
     class Meta:
@@ -15,6 +16,8 @@ class User(Model):
 def create_user(username, password):
     if not username or not password:
         raise ValueError
+    if User.collection.find_one({"username": username}):
+        raise DuplicatedUser
     return User({"username": username, "password": bcrypt.hashpw(password, bcrypt.gensalt())}).save()
 
 

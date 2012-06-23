@@ -1,7 +1,7 @@
 import unittest
 
 from test_utils import prepare_db_for_tests, test_depute
-from database import Depute, Extra, create_user, User
+from database import Depute, Extra, create_user, User, DuplicatedUser
 
 
 class TestDatabase(unittest.TestCase):
@@ -68,3 +68,7 @@ class TestUSer(unittest.TestCase):
     def test_password_is_not_correct(self):
         user = create_user(username="foo", password="bar")
         self.assertFalse(user.is_password("bad password"))
+
+    def test_duplicated_users(self):
+        create_user(username="foo", password="bar")
+        self.assertRaises(DuplicatedUser, create_user, username="foo", password="bar")
