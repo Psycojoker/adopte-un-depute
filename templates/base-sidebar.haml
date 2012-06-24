@@ -1,13 +1,9 @@
 -extends "_base.haml"
 
 -block container
-        <div class="row">
-            <div class="eight columns">
-                -block content
-            </div>
-            <div class="four columns">
-                <div class="sidebar">
-                    -block sidebar
-                </div>
-            </div>
-        </div>
+  %div.row
+    %div.eight.columns
+      -block content
+    %div.four.columns
+      %div.sidebar
+        -block sidebar

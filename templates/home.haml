@@ -1,29 +1,34 @@
 -extends "base.haml"
 
 -block content
-  <h3>Introduction</h3>
-  <p>Projet de site pour rendre plus facile le suivit des activités de son député pour pouvoir l'éduquer.</p>
-  <h3>Liste des députés</h3>
-  <dl class="tabs">
-      -for letter in deputes_by_letter.keys()|sort|first
-        <dd><a href="#{{ letter }}" class="active">{{ letter }}</a></dd>
-      -for letter in letters
-        <dd><a href="#{{ letter }}">{{ letter }}</a></dd>
-  </dl>
+  %h3
+    Introduction
+  %p
+    Projet de site pour rendre plus facile le suivit des activités de son député pour pouvoir l'éduquer.
 
-  <ul class="tabs-content">
+  %h3
+    Liste des députés
+
+
+  %dl.tabs
       -for letter in deputes_by_letter.keys()|sort|first
-        <li class="active" id="{{ letter }}Tab">
-        <ul class="deputes">
-            -for depute in deputes_by_letter[letter]
-              -include "depute_row.haml"
-        </ul>
-        </li>
+        %dd
+          %a.active href="#{{ letter }}"
+            =letter
       -for letter in letters
-        <li id="{{ letter }}Tab">
-        <ul class="deputes">
+        %dd
+          %a href="#{{ letter }}"
+            =letter
+
+
+  %ul.tabs-content
+      -for letter in deputes_by_letter.keys()|sort|first
+        %li.active id="{{ letter }}Tab"
+          %ul.deputes
             -for depute in deputes_by_letter[letter]
               -include "depute_row.haml"
-        </ul>
-        </li>
-  </ul>
+      -for letter in letters
+        %li id="{{ letter }}Tab"
+          %ul.deputes
+            -for depute in deputes_by_letter[letter]
+              -include "depute_row.haml"
