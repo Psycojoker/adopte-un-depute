@@ -42,14 +42,12 @@
             </div>
         </div>
 
-    {% block container %}
+    -block container
         <div class="row">
             <div class="twelve columns">
-                {% block content %}
-                {% endblock %}
+                -block content
             </div>
         </div>
-    {% endblock %}
 
 
     <footer class="row">
@@ -64,7 +62,7 @@
     <script src="/static/javascripts/jquery.min.js"></script>
     <script src="/static/javascripts/foundation.js"></script>
     <script src="/static/javascripts/app.js"></script>
-    {% block javascript %}{% endblock %}
+    -block javascript
 
 </body>
 </html>

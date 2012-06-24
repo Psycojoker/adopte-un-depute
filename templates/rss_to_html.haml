@@ -1,9 +1,7 @@
-{% if entries %}
-<ul>
-    {% for entrie in entries %}
-    <li><a href="{{ entrie.link }}">{{ entrie.title }}</a> - {{ entrie.published.strftime('%d/%m/%Y') }}</li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>Rien ici.</p>
-{% endif %}
+-if entries
+  <ul>
+      -for entrie in entries
+        <li><a href="{{ entrie.link }}">{{ entrie.title }}</a> - {{ entrie.published.strftime('%d/%m/%Y') }}</li>
+  </ul>
+-else
+  <p>Rien ici.</p>

@@ -1,36 +1,29 @@
-{% extends "base.html" %}
+-extends "base.haml"
 
-{% block content %}
-<h3>Introduction</h3>
-<p>Projet de site pour rendre plus facile le suivit des activités de son député pour pouvoir l'éduquer.</p>
-<h3>Liste des députés</h3>
-<dl class="tabs">
-    {% for letter in deputes_by_letter.keys()|sort|first %}
-    <dd><a href="#{{ letter }}" class="active">{{ letter }}</a></dd>
-    {% endfor %}
-    {% for letter in letters %}
-    <dd><a href="#{{ letter }}">{{ letter }}</a></dd>
-    {% endfor %}
-</dl>
+-block content
+  <h3>Introduction</h3>
+  <p>Projet de site pour rendre plus facile le suivit des activités de son député pour pouvoir l'éduquer.</p>
+  <h3>Liste des députés</h3>
+  <dl class="tabs">
+      -for letter in deputes_by_letter.keys()|sort|first
+        <dd><a href="#{{ letter }}" class="active">{{ letter }}</a></dd>
+      -for letter in letters
+        <dd><a href="#{{ letter }}">{{ letter }}</a></dd>
+  </dl>
 
-<ul class="tabs-content">
-    {% for letter in deputes_by_letter.keys()|sort|first %}
-    <li class="active" id="{{ letter }}Tab">
-    <ul class="deputes">
-        {% for depute in deputes_by_letter[letter] %}
-        {% include "depute_row.html" %}
-        {% endfor %}
-    </ul>
-    </li>
-    {% endfor %}
-    {% for letter in letters %}
-    <li id="{{ letter }}Tab">
-    <ul class="deputes">
-        {% for depute in deputes_by_letter[letter] %}
-        {% include "depute_row.html" %}
-        {% endfor %}
-    </ul>
-    </li>
-    {% endfor %}
-</ul>
-{% endblock %}
+  <ul class="tabs-content">
+      -for letter in deputes_by_letter.keys()|sort|first
+        <li class="active" id="{{ letter }}Tab">
+        <ul class="deputes">
+            -for depute in deputes_by_letter[letter]
+              -include "depute_row.haml"
+        </ul>
+        </li>
+      -for letter in letters
+        <li id="{{ letter }}Tab">
+        <ul class="deputes">
+            -for depute in deputes_by_letter[letter]
+              -include "depute_row.haml"
+        </ul>
+        </li>
+  </ul>
