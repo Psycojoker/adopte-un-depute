@@ -12,6 +12,7 @@ class FlaskrTestCase(unittest.TestCase):
     def setUp(self):
         prepare_db_for_tests()
         self.app = FlaskClient(app, response_wrapper=FormWrapper)
+        self.app.application.config["CSRF_ENABLED"] = False
         self.depute = Depute(test_depute).save()
         create_user("test", "test")
         self.ctx = app.test_request_context()
@@ -69,7 +70,7 @@ class FlaskrTestCase(unittest.TestCase):
     def test_login_success(self):
         rv = self.app.post(url_for("login"),
                            data={"username": "test", "password": "test"},
-                          follow_redirects=True)
+                           follow_redirects=True)
         self.assertTrue("Login success!" in rv.data)
         self.assertTrue("Logout" in rv.data)
 
@@ -77,18 +78,18 @@ class FlaskrTestCase(unittest.TestCase):
     def test_logout(self):
         rv = self.app.post(url_for("login"),
                            data={"username": "test", "password": "test"},
-                          follow_redirects=True)
+                           follow_redirects=True)
         self.app.get(url_for("logout"))
         self.assertTrue("Login" in rv.data)
 
     def test_login_bad_login(self):
         rv = self.app.post(url_for("login"),
                            data={"username": "bad", "password": "test"},
-                          follow_redirects=True)
-        self.assertTrue("This user doesn't exist or the password is false" in rv.data)
+                           follow_redirects=True)
+        self.assertTrue("This user doesn't exist or the password is wrong" in rv.data)
 
     def test_login_bad_password(self):
         rv = self.app.post(url_for("login"),
                            data={"username": "test", "password": "bad"},
-                          follow_redirects=True)
-        self.assertTrue("This user doesn't exist or the password is false" in rv.data)
+                           follow_redirects=True)
+        self.assertTrue("This user doesn't exist or the password is wrong" in rv.data)

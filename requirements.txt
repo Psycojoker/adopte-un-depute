@@ -7,4 +7,5 @@ ipdbplugin
 py-bcrypt
 Hamlish-Jinja
 flask-login
+flask-WTF
 flask-fillin

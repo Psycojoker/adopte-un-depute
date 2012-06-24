@@ -6,6 +6,7 @@ from shortcuts import get_object_or_404
 from utils import prepare_rss
 from database import User
 from werkzeug import ImmutableDict
+from flask.ext.wtf import Form, TextField, Required
 
 
 class FlaskWithHamlish(Flask):
@@ -63,17 +64,27 @@ def load_user(userid):
     return User.collection.find_one({"_id": userid})
 
 
+class LoginForm(Form):
+    username = TextField("login", validators=[Required()])
+    password = TextField("password", validators=[Required()])
+
+
 @app.route("/login/", methods=["POST", "GET"])
 def login():
-    if request.method == 'GET':
-        return render_template("login.haml")
-    user = User.collection.find_one({"username": request.form["username"]})
-    if user is None or not user.test_password(request.form["password"]):
-        flash("This user doesn't exist or the password is false", "error")
-        return render_template("login.haml")
-    login_user(user)
-    flash("Login success!", "success")
-    return redirect(url_for("home"))
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        user = User.collection.find_one({"username": form.username.data})
+
+        if user is None or not user.test_password(form.password.data):
+            flash("This user doesn't exist or the password is wrong", "error")
+            return render_template("login.haml", form=form)
+
+        login_user(user)
+        flash("Login success!", "success")
+        return redirect(url_for("home"))
+
+    return render_template("login.haml", form=form)
 
 
 @app.route("/logout/")

@@ -3,15 +3,30 @@
 -block content
 
   %div.four.columns.centered
-    %form action="{{ url_for('login') }}" method="POST"
+    %form.nice action="{{ url_for('login') }}" method="POST"
       %fieldset
         %h3
           Login
         %hr
 
-        %p
-          Username <input type="text" name="username" placeholder="username">
-        %p
-          Password <input type="password" name="password" placeholder="password">
-        %p
-          %input.button.nice style="float: right; margin-bottom: 4px" type="submit" value="Login"
+        =form.csrf_token
+
+        <div class="form-field{% if form.username.errors %} error{% endif %}">
+          %label for="username"
+            Username
+          %input#username.medium.input-text type="text" name="username" placeholder="username"
+          -for error in form.username.errors
+            %small
+              =error
+        </div>
+
+        <div class="form-field{% if form.password.errors %} error{% endif %}">
+          %label for="password"
+            Password
+          %input#password.medium.input-text type="password" name="password" placeholder="password"
+          -for error in form.username.errors
+            %small
+              =error
+        </div>
+
+        %input.button.nice style="float: right; margin-bottom: 4px" type="submit" value="Login"
