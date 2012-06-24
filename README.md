@@ -1,4 +1,4 @@
-# Introduction
+# Introduction [![Build Status](https://secure.travis-ci.org/Psycojoker/adopte-un-depute.png?branch=master)](http://travis-ci.org/Psycojoker/adopte-un-depute)
 
 Prototype of web that aim to encourage ppl to adopt a french deputy and to educate him on Internet and Free Software related subjects.
 
