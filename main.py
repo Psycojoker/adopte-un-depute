@@ -16,6 +16,12 @@ app = FlaskWithHamlish(__name__)
 app.jinja_options.hamlish_mode = "indented"
 
 
+@app.template_filter('ipdb')
+def ipdb(element):
+    from ipdb import set_trace; set_trace()
+    return element
+
+
 @app.route("/")
 def home():
     deputes_by_letter = {}
