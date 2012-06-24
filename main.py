@@ -1,6 +1,6 @@
 from urllib import quote_plus
 from flask import Flask, render_template, flash, request, url_for, redirect
-from flask_login import LoginManager, login_user, logout_user
+from flask.ext.login import LoginManager, login_user, logout_user
 from database import Depute
 from shortcuts import get_object_or_404
 from utils import prepare_rss
