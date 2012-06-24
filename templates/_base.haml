@@ -37,9 +37,9 @@
     %div.container
 
       %div.row
-          %div.eleven.columns
+          %div.twelve.columns
             %h2
-              <a style="color: black" href="/">Adopte un député <small>et fait son éducation numérique ! <i>en devel</i></small></a> <a href="{{ url_for('login') }}" class="media button" style="margin-top: 10px; float: right">Login</a>
+              <a style="color: black" href="/">Adopte un député <small>et fait son éducation numérique ! <i>en devel</i></small></a> {% if current_user.is_anonymous() == False %}<a class="media button" style="margin-top: 10px; float: right" href="{{ url_for('logout') }}">Logout</a>{% else %}<a href="{{ url_for('login') }}" class="media button" style="margin-top: 10px; float: right">Login</a>{% endif %}
               %hr
 
       -with messages = get_flashed_messages(with_categories=true)

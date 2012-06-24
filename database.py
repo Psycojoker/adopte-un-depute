@@ -14,6 +14,15 @@ class User(Model):
     def test_password(self, password):
         return bcrypt.hashpw(password, self.password) == self.password
 
+    def is_active(self):
+        return True
+
+    def get_id(self):
+        return self._id
+
+    def is_anonymous(self):
+        return False
+
 
 def create_user(username, password):
     if not username or not password:

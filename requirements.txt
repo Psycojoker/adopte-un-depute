@@ -6,3 +6,5 @@ nose
 ipdbplugin
 py-bcrypt
 Hamlish-Jinja
+flask-login
+flask-fillin
