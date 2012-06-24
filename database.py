@@ -3,7 +3,9 @@ import bcrypt
 import unicodedata
 from minimongo import Model, Index
 
+
 class DuplicatedUser(Exception): pass
+
 
 class User(Model):
     class Meta:
