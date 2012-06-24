@@ -17,7 +17,7 @@ def prepare_db_for_tests():
         Extra.collection.remove()
         Extra.collection.count() == 0
 
-        User.collection = Collection(Database(Connection('localhost', 27017), u'test_adopteundepute'), u'user', document_class=Extra)
+        User.collection = Collection(Database(Connection('localhost', 27017), u'test_adopteundepute'), u'user', document_class=User)
         User.database = Database(Connection('localhost', 27017), u'test_adopteundepute')
         User.collection.remove()
         User.collection.count() == 0
