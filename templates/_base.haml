@@ -42,6 +42,18 @@
               <a style="color: black" href="/">Adopte un député <small>et fait son éducation numérique ! <i>en devel</i></small></a> <a href="{{ url_for('login') }}" class="media button" style="margin-top: 10px; float: right">Login</a>
               %hr
 
+      -with messages = get_flashed_messages(with_categories=true)
+        %div.row
+          -if messages
+            -for category, message in messages
+              -if category
+                <div class="alert-box {{ category }}">
+                  {{ message }} <a href="" class="close">&times;</a>
+                </div>
+              -else
+                %div.alert-box
+                  {{ message }} <a href="" class="close">&times;</a>
+
       -block container
         %div.row
           %div.twelve.columns
