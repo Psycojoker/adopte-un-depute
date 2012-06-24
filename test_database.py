@@ -63,11 +63,11 @@ class TestUSer(unittest.TestCase):
 
     def test_password_is_correct(self):
         user = create_user(username="foo", password="bar")
-        self.assertTrue(user.is_password("bar"))
+        self.assertTrue(user.test_password("bar"))
 
     def test_password_is_not_correct(self):
         user = create_user(username="foo", password="bar")
-        self.assertFalse(user.is_password("bad password"))
+        self.assertFalse(user.test_password("bad password"))
 
     def test_duplicated_users(self):
         create_user(username="foo", password="bar")

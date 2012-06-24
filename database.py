@@ -9,7 +9,7 @@ class User(Model):
     class Meta:
         database = "adopteundepute"
 
-    def is_password(self, password):
+    def test_password(self, password):
         return bcrypt.hashpw(password, self.password) == self.password
 
 
