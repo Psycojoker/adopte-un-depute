@@ -5,3 +5,4 @@ dateutils
 nose
 ipdbplugin
 py-bcrypt
+Hamlish-Jinja
