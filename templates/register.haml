@@ -13,8 +13,8 @@
 
         <div class="form-field{% if form.username.errors %} error{% endif %}">
           %label for="username"
-            Username
-          %input#username.medium.input-text type="text" name="username" placeholder="username"
+            Login
+          %input#username.medium.input-text type="text" name="username" placeholder="login"
           -for error in form.username.errors
             %small
               =error
@@ -22,8 +22,8 @@
 
         <div class="form-field{% if form.password.errors %} error{% endif %}">
           %label for="password"
-            Password
-          %input#password.medium.input-text type="password" name="password" placeholder="password"
+            Mot de passe
+          %input#password.medium.input-text type="password" name="password" placeholder="mot de passe"
           -for error in form.password.errors
             %small
               =error
@@ -31,8 +31,8 @@
 
         <div class="form-field{% if form.confirm_password.errors %} error{% endif %}">
           %label for="confirm_password"
-            Confirm password
-          %input#confirm_password.medium.input-text type="password" name="confirm_password"
+            Confirmer le mot de passe
+          %input#confirm_password.medium.input-text type="password" name="confirm_password" placeholder="confirmer le mot de passe"
           -for error in form.confirm_password.errors
             %small
               =error

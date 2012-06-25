@@ -101,9 +101,9 @@ class AuDTestCase(unittest.TestCase):
 
     def test_register_page(self):
         rv = self.app.get(url_for("register"))
-        self.assertTrue("Username" in rv.data)
-        self.assertTrue("Password" in rv.data)
-        self.assertTrue("Confirm password" in rv.data)
+        self.assertTrue("Login" in rv.data)
+        self.assertTrue("Mot de passe" in rv.data)
+        self.assertTrue("Confirmer le mot de " in rv.data)
 
     def test_register_form(self):
         rv = self.app.get(url_for("register"))
