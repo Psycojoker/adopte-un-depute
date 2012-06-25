@@ -6,7 +6,7 @@ from shortcuts import get_object_or_404
 from utils import prepare_rss
 from database import User
 from werkzeug import ImmutableDict
-from flask.ext.wtf import Form, TextField, Required
+from flask.ext.wtf import Form, TextField, Required, PasswordField
 
 
 class FlaskWithHamlish(Flask):
@@ -66,7 +66,7 @@ def load_user(userid):
 
 class LoginForm(Form):
     username = TextField("login", validators=[Required()])
-    password = TextField("password", validators=[Required()])
+    password = PasswordField("password", validators=[Required()])
 
 
 @app.route("/login/", methods=["POST", "GET"])
