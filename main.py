@@ -1,7 +1,8 @@
+# -*- encoding: utf-8 -*-
 from urllib import quote_plus
 from flask import Flask, render_template, flash, url_for, redirect
 from flask.ext.login import LoginManager, login_user, logout_user
-from database import Depute
+from database import Depute, create_user
 from shortcuts import get_object_or_404
 from utils import prepare_rss
 from database import User
@@ -92,6 +93,32 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("home"))
+
+
+class RegisterForm(Form):
+    username = TextField("login", validators=[Required()])
+    password = PasswordField("password", validators=[Required()])
+    confirm_password = PasswordField("confirm_password", validators=[Required()])
+
+
+@app.route("/register/", methods=["POST", "GET"])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        if User.collection.find_one({"username": form.username.data}):
+            form.username.errors.append(u"Ce pseudonyme est déjà pris.")
+            return render_template("register.haml", form=form)
+
+        if form.password.data != form.confirm_password.data:
+            form.confirm_password.errors.append(u"Les mots de passe ne correspondent pas.")
+            return render_template("register.haml", form=form)
+
+        user = create_user(form.username.data, form.password.data)
+        login_user(user)
+        flash(u"Votre compte a correctement été créé.", "success")
+        return redirect(url_for("home"))
+    return render_template("register.haml", form=form)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

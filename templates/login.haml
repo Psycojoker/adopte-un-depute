@@ -6,15 +6,15 @@
     %form.nice action="{{ url_for('login') }}" method="POST"
       %fieldset
         %h3
-          Login
+          Se connecter
         %hr
 
         =form.csrf_token
 
         <div class="form-field{% if form.username.errors %} error{% endif %}">
           %label for="username"
-            Username
-          %input#username.medium.input-text type="text" name="username" placeholder="username"
+            Login
+          %input#username.medium.input-text type="text" name="username" placeholder="login"
           -for error in form.username.errors
             %small
               =error
@@ -22,8 +22,8 @@
 
         <div class="form-field{% if form.password.errors %} error{% endif %}">
           %label for="password"
-            Password
-          %input#password.medium.input-text type="password" name="password" placeholder="password"
+            Mot de passe
+          %input#password.medium.input-text type="password" name="password" placeholder="mot de passe"
           -for error in form.password.errors
             %small
               =error
@@ -33,4 +33,4 @@
           =form.rememberme
           Se souvenir de moi
 
-        %input.button.nice style="float: right; margin-bottom: 4px" type="submit" value="Login"
+        %input.button.nice style="float: right; margin-bottom: 4px" type="submit" value="Se connecter"

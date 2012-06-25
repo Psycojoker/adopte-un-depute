@@ -39,7 +39,7 @@
       %div.row
           %div.twelve.columns
             %h2
-              <a style="color: black" href="/">Adopte un député <small>et fait son éducation numérique ! <i>en devel</i></small></a> {% if current_user.is_anonymous() == False %}<a class="media button" style="margin-top: 10px; float: right" href="{{ url_for('logout') }}">Logout</a>{% else %}<a href="{{ url_for('login') }}" class="media button" style="margin-top: 10px; float: right">Login</a>{% endif %}
+              <a style="color: black" href="/">Adopte un député <small>et fait son éducation numérique !</small></a> {% if current_user.is_anonymous() == False %}<a class="media button white" style="margin-top: 10px; float: right" href="{{ url_for('logout') }}">Se déconnecter</a>{% else %}<div style="float: right"><a href="{{ url_for('register') }}" class="media button">S'inscrire</a> <a href="{{ url_for('login') }}" class="media button">Se connecter</a></div>{% endif %}
               %hr
 
       -with messages = get_flashed_messages(with_categories=true)

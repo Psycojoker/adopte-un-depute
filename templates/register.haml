@@ -1,0 +1,41 @@
+-extends "base.haml"
+
+-block content
+
+  %div.four.columns.centered
+    %form.nice action="{{ url_for('register') }}" method="POST"
+      %fieldset
+        %h3
+          Créer un compte
+        %hr
+
+        =form.csrf_token
+
+        <div class="form-field{% if form.username.errors %} error{% endif %}">
+          %label for="username"
+            Username
+          %input#username.medium.input-text type="text" name="username" placeholder="username"
+          -for error in form.username.errors
+            %small
+              =error
+        </div>
+
+        <div class="form-field{% if form.password.errors %} error{% endif %}">
+          %label for="password"
+            Password
+          %input#password.medium.input-text type="password" name="password" placeholder="password"
+          -for error in form.password.errors
+            %small
+              =error
+        </div>
+
+        <div class="form-field{% if form.confirm_password.errors %} error{% endif %}">
+          %label for="confirm_password"
+            Confirm password
+          %input#confirm_password.medium.input-text type="password" name="confirm_password"
+          -for error in form.confirm_password.errors
+            %small
+              =error
+        </div>
+
+        %input.button.nice style="float: right; margin-bottom: 4px" type="submit" value="S'enregister"
