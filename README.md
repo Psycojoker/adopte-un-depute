@@ -4,6 +4,10 @@ Prototype of web that aim to encourage ppl to adopt a french deputy and to educa
 
 # Installation
 
+You'll need to be able to build some C dependacies, on debian you'll need the packages:
+
+    libxml2-dev libxslt1-dev python-dev
+
 You need mongodb, python and virtualenv
 
     virtualenv --no-site-packages --distribute ve
