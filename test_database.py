@@ -117,3 +117,8 @@ class TestUserFollow(unittest.TestCase):
         in_db_user = User.collection.find_one({"_id": self.user._id})
         self.assertEqual(len(in_db_user.follow_list), 0)
         self.assertTrue(self.depute._id not in in_db_user.follow_list)
+
+    def test_get_followed_deputies(self):
+        self.assertEqual(self.user.get_followed_deputies(), [])
+        self.user.follow(self.depute)
+        self.assertEqual(self.user.get_followed_deputies()[0], self.depute)

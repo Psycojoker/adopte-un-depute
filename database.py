@@ -42,6 +42,9 @@ class User(Model):
         self.follow_list.remove(depute._id)
         self.save()
 
+    def get_followed_deputies(self):
+        return [Depute.collection.find_one({"_id": x}) for x in self.follow_list]
+
 
 def create_user(username, password):
     if not username or not password:
