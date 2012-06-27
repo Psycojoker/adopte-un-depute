@@ -72,3 +72,48 @@ class TestUSer(unittest.TestCase):
     def test_duplicated_users(self):
         create_user(username="foo", password="bar")
         self.assertRaises(DuplicatedUser, create_user, username="foo", password="bar")
+
+class TestUserFollow(unittest.TestCase):
+    def setUp(self):
+        prepare_db_for_tests()
+        self.user = create_user("pouet", "pouet")
+        self.depute = Depute(test_depute).save()
+
+    def test_user_follow_list(self):
+        self.assertEqual([], self.user.follow_list)
+
+    def test_user_follow_raise_value_error(self):
+        """should only work with a Depute  args"""
+        self.assertRaises(ValueError, self.user.follow, None)
+
+    def test_user_follow_depute(self):
+        self.user.follow(self.depute)
+        self.assertEqual(len(self.user.follow_list), 1)
+        self.assertEqual(self.user.follow_list[0], self.depute._id)
+
+    def test_user_follow_list_is_save(self):
+        self.user.follow(self.depute)
+        in_db_user = User.collection.find_one({"_id": self.user._id})
+        self.assertEqual(len(in_db_user.follow_list), 1)
+        self.assertEqual(in_db_user.follow_list[0], self.depute._id)
+
+    def test_user_unfollow_raise_value_error(self):
+        self.assertRaises(ValueError, self.user.unfollow, None)
+
+    def test_user_unfollow_depute(self):
+        self.user.follow(self.depute)
+        self.assertEqual(len(self.user.follow_list), 1)
+        self.assertEqual(self.user.follow_list[0], self.depute._id)
+        self.user.unfollow(self.depute)
+        self.assertEqual(len(self.user.follow_list), 0)
+        self.assertTrue(self.depute._id not in self.user.follow_list)
+
+    def test_user_unfollow_list_is_save(self):
+        self.user.follow(self.depute)
+        in_db_user = User.collection.find_one({"_id": self.user._id})
+        self.assertEqual(len(in_db_user.follow_list), 1)
+        self.assertEqual(in_db_user.follow_list[0], self.depute._id)
+        self.user.unfollow(self.depute)
+        in_db_user = User.collection.find_one({"_id": self.user._id})
+        self.assertEqual(len(in_db_user.follow_list), 0)
+        self.assertTrue(self.depute._id not in in_db_user.follow_list)

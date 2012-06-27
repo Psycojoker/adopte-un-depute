@@ -23,6 +23,25 @@ class User(Model):
     def is_anonymous(self):
         return False
 
+    @property
+    def follow_list(self):
+        if self.get("follow_list", None) is None:
+            self["follow_list"] = []
+            self.save()
+        return self["follow_list"]
+
+    def follow(self, depute):
+        if not isinstance(depute, Depute):
+            raise ValueError
+        self.follow_list.append(depute._id)
+        self.save()
+
+    def unfollow(self, depute):
+        if not isinstance(depute, Depute):
+            raise ValueError
+        self.follow_list.remove(depute._id)
+        self.save()
+
 
 def create_user(username, password):
     if not username or not password:
