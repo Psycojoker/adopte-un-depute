@@ -122,3 +122,8 @@ class TestUserFollow(unittest.TestCase):
         self.assertEqual(self.user.get_followed_deputies(), [])
         self.user.follow(self.depute)
         self.assertEqual(self.user.get_followed_deputies()[0], self.depute)
+
+    def test_is_following(self):
+        self.assertFalse(self.user.is_following(self.depute))
+        self.user.follow(self.depute)
+        self.assertTrue(self.user.is_following(self.depute))

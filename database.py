@@ -45,6 +45,9 @@ class User(Model):
     def get_followed_deputies(self):
         return [Depute.collection.find_one({"_id": x}) for x in self.follow_list]
 
+    def is_following(self, depute):
+        return depute._id in self.follow_list
+
 
 def create_user(username, password):
     if not username or not password:
