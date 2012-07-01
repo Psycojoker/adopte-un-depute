@@ -42,12 +42,30 @@
       Loading...
 
 -block sidebar
-  %img src="http://2007-2012.nosdeputes.fr/depute/photo/{{ depute.slug }}"
+  %center
+    %img src="http://2007-2012.nosdeputes.fr/depute/photo/{{ depute.slug }}"
 
   %h4
-    Statuts
+    Status
+
   %p
-    Personne n'a adopté ce député :(
+    -if not current_user.is_anonymous() and current_user.is_following(depute)
+      %a.green.medium.button href="{{ url_for('adopter', depute=depute.slug) }}" style="text-align: center"
+        Adopté
+    -else
+      %a.medium.button href="{{ url_for('adopter', depute=depute.slug) }}"
+        Adopter ce député
+
+  -if not depute.extra.followers
+    %p
+      Personne n'a adopté ce député
+  -else
+    %h4
+      Parrain{% if depute.extra.followers|length > 1 %}s{% endif %}
+    %ul
+      -for follower in depute.extra.followers
+        %li
+          =follower.username
 
 -block javascript
   %script

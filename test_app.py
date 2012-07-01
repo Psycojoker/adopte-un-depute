@@ -15,9 +15,14 @@ class AuDTestCase(unittest.TestCase):
         self.app = FlaskClient(app, response_wrapper=FormWrapper)
         self.app.application.config["CSRF_ENABLED"] = False
         self.depute = Depute(test_depute).save()
-        create_user("test", "test")
+        self.user = create_user("test", "test")
         self.ctx = app.test_request_context()
         self.ctx.push()
+
+    def login(self):
+        return self.app.post(url_for("login"),
+                             data={"username": "test", "password": "test"},
+                             follow_redirects=True)
 
     def tearDown(self):
         self.ctx.pop()
@@ -69,9 +74,7 @@ class AuDTestCase(unittest.TestCase):
         self.assertEqual(rv.status_code, 302)
 
     def test_login_success(self):
-        rv = self.app.post(url_for("login"),
-                           data={"username": "test", "password": "test"},
-                           follow_redirects=True)
+        rv = self.login()
         self.assertTrue("Login success!" in rv.data)
         self.assertTrue("Se déconnecter" in rv.data)
 
@@ -147,3 +150,37 @@ class AuDTestCase(unittest.TestCase):
                       follow_redirects=True)
         self.assertTrue("Votre compte a correctement été créé." in rv.data)
         self.assertTrue(url_for("logout") in rv.data)
+
+    def test_register_on_login(self):
+        rv = self.app.post(url_for('login'))
+        self.assertEqual(rv.data.count(url_for('register')), 2)
+
+    def test_follow_show_on_deputy_page(self):
+        rv = self.app.get(url_for("depute", depute=self.depute.slug))
+        self.assertTrue("Adopter ce député" in rv.data)
+        self.assertTrue(url_for("adopter", depute=self.depute.slug) in rv.data)
+
+    def test_follow_not_logged_in(self):
+        rv = self.app.get(url_for("adopter", depute=self.depute.slug))
+        self.assertEqual(rv.status_code, 302)
+
+    def test_adopt_logged(self):
+        self.login()
+        rv = self.app.get(url_for("adopter", depute=self.depute.slug))
+        self.assertEqual(rv.status_code, 302)
+
+    def test_adopt_is_marked(self):
+        self.login()
+        rv = self.app.get(url_for("adopter", depute=self.depute.slug), follow_redirects=True)
+        self.assertTrue("Se déconnecter" in rv.data)
+        self.assertTrue("Adopté" in rv.data)
+
+    def test_no_adopters_on_deputy_page(self):
+        rv = self.app.get(url_for("depute", depute=self.depute.slug))
+        self.assertTrue("Personne n'a adopté ce député" in rv.data)
+
+    def test_show_deputy_adopters(self):
+        self.login()
+        self.app.get(url_for("adopter", depute=self.depute.slug), follow_redirects=True)
+        rv = self.app.get(url_for("depute", depute=self.depute.slug))
+        self.assertTrue("%s" % self.user.username in rv.data)

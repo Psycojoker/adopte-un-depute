@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from urllib import quote_plus
 from flask import Flask, render_template, flash, url_for, redirect
-from flask.ext.login import LoginManager, login_user, logout_user
+from flask.ext.login import LoginManager, login_user, logout_user, current_user
 from database import Depute, create_user
 from shortcuts import get_object_or_404
 from utils import prepare_rss
@@ -59,6 +59,13 @@ def nosdeputes_rss(depute):
     depute = get_object_or_404(Depute, {"slug": depute})
     return render_template("rss_to_html.haml", entries=prepare_rss("http://www.nosdeputes.fr/%s/rss" % depute["slug"]))
 
+
+@app.route("/adopter/<depute>/")
+def adopter(depute):
+    if current_user.is_anonymous():
+        return redirect(url_for('login'))
+    current_user.follow(Depute.collection.find_one({'slug': depute}))
+    return redirect(url_for('depute', depute=depute))
 
 @login_manager.user_loader
 def load_user(userid):

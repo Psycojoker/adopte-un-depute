@@ -61,6 +61,14 @@ class Extra(Model):
     class Meta:
         database = "adopteundepute"
 
+    @property
+    def depute(self):
+        return Depute.collection.find_one({"_id": self.depute_id})
+
+    @property
+    def followers(self):
+        return list(User.collection.find({"follow_list": self.depute._id}))
+
 
 class Depute(Model):
     class Meta:
@@ -80,7 +88,7 @@ class Depute(Model):
 
     @property
     def extra(self):
-        in_db_extra = Extra.collection.find_one({"depute_id": self.an_id})
+        in_db_extra = Extra.collection.find_one({"depute_id": self._id})
         if not in_db_extra:
-            return Extra({"depute_id": self.an_id}).save()
+            return Extra({"depute_id": self._id}).save()
         return in_db_extra

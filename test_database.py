@@ -29,11 +29,14 @@ class TestDatabase(unittest.TestCase):
         self.assertEqual(Extra.collection.count(), 1)
 
     def test_extra_save_depute_id(self):
-        self.assertEqual(self.depute.extra.depute_id, self.depute.an_id)
+        self.assertEqual(self.depute.extra.depute_id, self.depute._id)
 
     def test_extra_the_same(self):
         extra = self.depute.extra
         self.assertEqual(extra, self.depute.extra)
+
+    def test_extra_get_depute(self):
+        self.assertEqual(self.depute, self.depute.extra.depute)
 
 
 class TestUSer(unittest.TestCase):
@@ -72,6 +75,7 @@ class TestUSer(unittest.TestCase):
     def test_duplicated_users(self):
         create_user(username="foo", password="bar")
         self.assertRaises(DuplicatedUser, create_user, username="foo", password="bar")
+
 
 class TestUserFollow(unittest.TestCase):
     def setUp(self):
@@ -127,3 +131,10 @@ class TestUserFollow(unittest.TestCase):
         self.assertFalse(self.user.is_following(self.depute))
         self.user.follow(self.depute)
         self.assertTrue(self.user.is_following(self.depute))
+
+    def test_deputy_empty_followers(self):
+        self.assertEqual(self.depute.extra.followers, [])
+
+    def test_deputy_one_follower(self):
+        self.user.follow(self.depute)
+        self.assertEqual(self.depute.extra.followers, [self.user])
